@@ -27,10 +27,11 @@ if st.button("💾 Salvar alteração"):
             "proposito": proposito
         }).execute()
 
-        if response.status_code == 201:
-            st.success("✅ Alteração registrada com sucesso no banco de dados.")
-        else:
-            st.error(f"❌ Erro ao registrar: {response.status_code} - {response.data}")
+    if response.data and not response.error:
+       st.success("✅ Alteração registrada com sucesso no banco de dados.")
+    else:
+       st.error(f"❌ Erro ao registrar: {response.error}")
+
 
 # Mostrar os últimos logs
 st.subheader("📑 Últimos registros")
