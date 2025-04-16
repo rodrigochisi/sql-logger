@@ -23,8 +23,9 @@ if filtro_nome:
 if filtro_unidade:
     query = query.ilike("unidade", f"%{filtro_unidade}%")
 
-variaveis = query.order("nome", asc=True).execute()
+variaveis = query.execute()
 df_variaveis = pd.DataFrame(variaveis.data)
+df_variaveis = df_variaveis.sort_values(by="nome")  # ordena no pandas
 
 if df_variaveis.empty:
     st.info("Nenhuma variável encontrada.")
