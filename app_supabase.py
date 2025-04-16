@@ -24,11 +24,15 @@ if filtro_unidade:
     query = query.ilike("unidade", f"%{filtro_unidade}%")
 
 variaveis = query.execute()
-df_variaveis = pd.DataFrame(variaveis.data)
-df_variaveis = df_variaveis.sort_values(by="nome")  # ordena no pandas
-
-if df_variaveis.empty:
-    st.info("Nenhuma variável encontrada.")
+if variaveis.data:
+    df_variaveis = pd.DataFrame(variaveis.data)
+    if "nome" in df_variaveis.columns:
+        df_variaveis = df_variaveis.sort_values(by="nome")
+    else:
+        st.error("❌ A coluna 'nome' não foi encontrada nos dados retornados.")
+        st.stop()
+else:
+    st.info("Nenhuma variável encontrada no banco de dados.")
     st.stop()
 
 # 🧾 Seleção da variável
